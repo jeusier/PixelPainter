@@ -192,7 +192,12 @@ $(document).ready(function(){
 				}
 			}
 
-			$("#toolbar").append("<button id='clearAll'>Clear</button>");
+
+			$("#toolbar").append("<button id='whiteAll'>White</button>");
+			// $("#toolbar").append("<button id='blackAll'>Black</button>");
+			$("#toolbar").append("<button id='eraseColor'>Erase</button>");
+			// $("#toolbar").append("<br /><button id='borders'>Borders</button>");
+			$("#toolbar").append("<p id='colorValue'></p>");
 
 			
 			var colorCounter = 0;
@@ -203,15 +208,34 @@ $(document).ready(function(){
 				}
 			}
 
-			$("td").click(function(){
+			$("#toolbar tr td").click(function(){
 				currentColor = $(this).css("background-color");
+				$("#colorValue").html("Color Value: " + currentColor);
 				// alert(currentColor);
 			});
 
-			$("#clearAll").click(function(){
-				$("#container tr td").css("background-color", "white");
+			$("#whiteAll").click(function(){
+				$("#container tr td").css({"background-color":"white", "border":"1px solid black"});
 				// alert(currentColor);
 			});
+
+			$("#blackAll").click(function(){
+				$("#container tr td").css({"background-color":"black", "border":"1px solid white"});
+
+				// alert(currentColor);
+			});
+
+			$("#eraseColor").click(function(){
+				currentColor = "";
+				$("#colorValue").html("Color Value: " + currentColor);
+				// alert(currentColor);
+			});
+
+			$("#borders").click(function(){
+				$("#container tr td").css("border","1px solid black").toggle();
+			});
+
+
 		
 
 		};
