@@ -192,6 +192,8 @@ $(document).ready(function(){
 				}
 			}
 
+			$("#toolbar").append("<button id='clearAll'>Clear</button>");
+
 			
 			var colorCounter = 0;
 			for (var k = 0; k < 20; k++){
@@ -203,6 +205,11 @@ $(document).ready(function(){
 
 			$("td").click(function(){
 				currentColor = $(this).css("background-color");
+				// alert(currentColor);
+			});
+
+			$("#clearAll").click(function(){
+				$("#container tr td").css("background-color", "white");
 				// alert(currentColor);
 			});
 		
