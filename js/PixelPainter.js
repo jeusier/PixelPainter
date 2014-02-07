@@ -4,24 +4,221 @@ $(document).ready(function(){
 		this.height = height;
 		this.size = size;
 
-		this.render = function(where, type){
-			$(where).append("<table>");
+
+            this.renderCanvas = function (where){
+			$(where).css({"display":"inline","float":"left"});
 			for(var i = 0; i < height; i++){
-				$(where).append("<tr id='"+type+"_row"+i+"'>");
-				$("#"+type+"_row"+i).css("border","1px solid black");
+				$(where).append("<tr id='canvas_row_"+i+"'>");
+				$("#canvas_row_"+i).css("border","1px solid black");
 
 				for(var j = 0; j < width; j++){
-					$("#"+type+"_row"+i).append("<td class='column_"+j+"'>");
-					$(".column_"+j).css({"border":"1px solid black", "width":size, "height":size});
+					$("#canvas_row_"+i).append("<td class='canvas_column_"+j+"'>");
+					$(".canvas_column_"+j).css({"border":"1px solid black", "width":size, "height":size});
 
 				}
 			}
-			$(where).append("</table>");
-			
+
+			$("td").click(function(){
+				$(this).css("background-color", currentColor);
+
+			});
+
 		};
+
+
 	}
 
-	var pixelPainter = new PixelPainter(25,25,25);
-	$("#container").html(pixelPainter.render("#container","canvas"));
+	function ColorPicker(width, height, size){
+		this.width = width;
+		this.height = height;
+		this.size = size;
+		colors = [
+            "aliceblue",
+            "antiquewhite",
+            "aqua",
+            "aquamarine",
+            "azure",
+            "beige",
+            "bisque",
+            "black",
+            "blanchedalmond",
+            "blue",
+            "blueviolet",
+            "brown",
+            "burlywood",
+            "cadetblue",
+            "chartreuse",
+            "chocolate",
+            "coral",
+            "cornflowerblue",
+            "cornsilk",
+            "crimson",
+            "cyan",
+            "darkblue",
+            "darkcyan",
+            "darkgoldenrod",
+            "darkgray",
+            "darkgreen",
+            "darkkhaki",
+            "darkmagenta",
+            "darkolivegreen",
+            "darkorange",
+            "darkorchid",
+            "darkred",
+            "darksalmon",
+            "darkseagreen",
+            "darkslateblue",
+            "darkslategray",
+            "darkturquoise",
+            "darkviolet",
+            "deeppink",
+            "deepskyblue",
+            "dimgray",
+            "dodgerblue",
+            "firebrick",
+            "floralwhite",
+            "forestgreen",
+            "fuchsia",
+            "gainsboro",
+            "ghostwhite",
+            "gold",
+            "goldenrod",
+            "gray",
+            "green",
+            "greenyellow",
+            "honeydew",
+            "hotpink",
+            "indianred",
+            "indigo",
+            "ivory",
+            "khaki",
+            "lavender",
+            "lavenderblush",
+            "lawngreen",
+            "lemonchiffon",
+            "lightblue",
+            "lightcoral",
+            "lightcyan",
+            "lightgoldenrodyellow",
+            "lightgray",
+            "lightgreen",
+            "lightpink",
+            "lightsalmon",
+            "lightseagreen",
+            "lightskyblue",
+            "lightslategray",
+            "lightsteelblue",
+            "lightyellow",
+            "lime",
+            "limegreen",
+            "linen",
+            "magenta",
+            "maroon",
+            "mediumaquamarine",
+            "mediumblue",
+            "mediumorchid",
+            "mediumpurple",
+            "mediumseagreen",
+            "mediumslateblue",
+            "mediumspringgreen",
+            "mediumturquoise",
+            "mediumvioletred",
+            "midnightblue",
+            "mintcream",
+            "mistyrose",
+            "moccasin",
+            "navajowhite",
+            "navy",
+            "oldlace",
+            "olive",
+            "olivedrab",
+            "orange",
+            "orangered",
+            "orchid",
+            "palegoldenrod",
+            "palegreen",
+            "paleturquoise",
+            "palevioletred",
+            "papayawhip",
+            "peachpuff",
+            "peru",
+            "pink",
+            "plum",
+            "powderblue",
+            "purple",
+            "red",
+            "rosybrown",
+            "royalblue",
+            "saddlebrown",
+            "salmon",
+            "sandybrown",
+            "seagreen",
+            "seashell",
+            "sienna",
+            "silver",
+            "skyblue",
+            "slateblue",
+            "slategray",
+            "snow",
+            "springgreen",
+            "steelblue",
+            "tan",
+            "teal",
+            "thistle",
+            "tomato",
+            "turquoise",
+            "violet",
+            "wheat",
+            "white",
+            "whitesmoke",
+            "yellow",
+            "yellowgreen"
+            ];
+    this.currentColor = "";
+
+        var colorCell = "<td class='toolbar_column_";
+        var colorRow = "<tr id='toolbar_row_";
+
+        this.renderColorPicker = function (where){
+			$(where).css({"display":"inline","float":"left","margin-left":"20px"});
+			for(var i = 0; i < height; i++){
+				$(where).append(colorRow+i+"'>");
+				$("#toolbar_row_"+i).css("border","1px solid black");
+
+				for(var j = 0; j < width; j++){
+					$("#toolbar_row_"+i).append(colorCell+j+"'>");
+					$(".toolbar_column_"+j).css({"border":"1px solid black", "width":size, "height":size});
+
+				}
+			}
+
+			
+			var colorCounter = 0;
+			for (var k = 0; k < 20; k++){
+				for(var l = 0; l < 7; l++){
+					$("#toolbar_row_"+k+" .toolbar_column_"+l).css("background-color", colors[colorCounter]);
+					colorCounter++;
+				}
+			}
+
+			$("td").click(function(){
+				currentColor = $(this).css("background-color");
+				// alert(currentColor);
+			});
+		
+
+		};
+
+
+	}
+
+	$("#clear").css({"clear":"both"});
+	var pixelPainter = new PixelPainter(30,30,15);
+	var colorPicker = new ColorPicker(7,20,20);
+
+	pixelPainter.renderCanvas("#container");
+	colorPicker.renderColorPicker("#toolbar");
+	
+
 
 });
