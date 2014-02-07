@@ -9,16 +9,33 @@ $(document).ready(function(){
 			$(where).css({"display":"inline","float":"left"});
 			for(var i = 0; i < height; i++){
 				$(where).append("<tr id='canvas_row_"+i+"'>");
-				$("#canvas_row_"+i).css("border","1px solid black");
+				$("#canvas_row_"+i).css("border","1px solid #E6E6E6");
 
 				for(var j = 0; j < width; j++){
 					$("#canvas_row_"+i).append("<td class='canvas_column_"+j+"'>");
-					$(".canvas_column_"+j).css({"border":"1px solid black", "width":size, "height":size});
+					$(".canvas_column_"+j).css({"border":"1px solid #E6E6E6", "width":size, "height":size});
 
 				}
 			}
+			var isMouseDown = false;
 
-			$("td").click(function(){
+
+			$("#container").mousedown(function(){
+				isMouseDown = true;
+			})
+			.mouseup(function(){
+					isMouseDown = false;
+				});
+
+			$("#container tr td").mouseenter(function(){
+				if(isMouseDown)
+					$(this).css("background-color", currentColor);
+
+				});
+
+
+			
+			$("#container tr td").click(function(){
 				$(this).css("background-color", currentColor);
 
 			});
@@ -187,14 +204,14 @@ $(document).ready(function(){
 
 				for(var j = 0; j < width; j++){
 					$("#toolbar_row_"+i).append(colorCell+j+"'>");
-					$(".toolbar_column_"+j).css({"border":"1px solid black", "width":size, "height":size});
+					$(".toolbar_column_"+j).css({"border":"1px solid black", "width":size, "height":size, "background-color":""});
 
 				}
 			}
 
 
-			$("#toolbar").append("<button id='whiteAll'>White</button>");
-			// $("#toolbar").append("<button id='blackAll'>Black</button>");
+			$("#toolbar").append("<button id='whiteAll'>Clear All</button>");
+			$("#toolbar").append("<button id='colorAll'>Paint All</button>");
 			$("#toolbar").append("<button id='eraseColor'>Erase</button>");
 			// $("#toolbar").append("<br /><button id='borders'>Borders</button>");
 			$("#toolbar").append("<p id='colorValue'></p>");
@@ -215,13 +232,14 @@ $(document).ready(function(){
 			});
 
 			$("#whiteAll").click(function(){
-				$("#container tr td").css({"background-color":"white", "border":"1px solid black"});
+				$("#container tr td").css({"background-color":"", "border":"1px solid #E6E6E6"});
 				// alert(currentColor);
 			});
 
-			$("#blackAll").click(function(){
-				$("#container tr td").css({"background-color":"black", "border":"1px solid white"});
-
+			$("#colorAll").click(function(){
+				// if ( $("#container tr td").css("background-color") == ""){
+					$("#container tr td").css("background-color", currentColor);
+				// }
 				// alert(currentColor);
 			});
 
@@ -244,7 +262,7 @@ $(document).ready(function(){
 	}
 
 	$("#clear").css({"clear":"both"});
-	var pixelPainter = new PixelPainter(30,30,15);
+	var pixelPainter = new PixelPainter(50,50,10);
 	var colorPicker = new ColorPicker(7,20,20);
 
 	pixelPainter.renderCanvas("#container");
